@@ -57,14 +57,15 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'aplicacoes')
 BEGIN
-  CREATE TABLE dbo.aplicacoes (ID_Aplicacao Integer Primary Key Identity(1,1)
-                              ,CD_Aplicacao Char(6)      COLLATE Latin1_General_CI_AS  NOT NULL
-                              ,NM_Aplicacao Varchar(100) COLLATE Latin1_General_CI_AS  NOT NULL 
-                              ,ID_Pessoa    Integer                                    NOT NULL
-                              ,ID_Cargo     Integer                                    NOT NULL
-                              ,ID_Nivel     Integer                                    NOT NULL
-                              ,SN_Aprovado  Char(1)      COLLATE Latin1_General_CI_AS 
-                              ,RS_Aplicacao Varchar(500) COLLATE Latin1_General_CI_AS )  
+  CREATE TABLE dbo.aplicacoes (ID_Aplicacao          Integer Primary Key Identity(1,1)
+                              ,CD_Aplicacao          Char(6)      COLLATE Latin1_General_CI_AS  NOT NULL
+                              ,NM_Aplicacao          Varchar(100) COLLATE Latin1_General_CI_AS  NOT NULL 
+                              ,ID_Pessoa             Integer                                    NOT NULL
+                              ,ID_Cargo              Integer                                    NOT NULL
+                              ,ID_Nivel              Integer                                    NOT NULL
+                              ,SN_Aprovado           Char(1)      COLLATE Latin1_General_CI_AS 
+                              ,RS_Aplicacao          Varchar(500) COLLATE Latin1_General_CI_AS 
+                              ,DT_Vigencia_Aplicacao Datetime)  
 END
 GO
 
@@ -133,7 +134,7 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'capacitacoes')
 BEGIN
-  CREATE TABLE dbo.capacitacoes (ID_Capacitacao Integer                                   NOT NULL
+  CREATE TABLE dbo.capacitacoes (ID_Capacitacao Integer Primary Key Identity (1,1)        NOT NULL
                                 ,ID_Pessoa      Integer                                   NOT NULL
                                 ,NM_Capacitacao Varchar(100) COLLATE Latin1_General_CI_AS NOT NULL 
                                 ,NM_Instituicao Varchar(100) COLLATE Latin1_General_CI_AS NOT NULL 
@@ -144,5 +145,53 @@ GO
 IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_capacitacoes_ID_Pessoa'))
 BEGIN
   ALTER TABLE dbo.capacitacoes ADD CONSTRAINT FK_capacitacoes_ID_Pessoa FOREIGN KEY (ID_Pessoa) REFERENCES dbo.pessoas (ID_Pessoa);
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'vaga')
+BEGIN
+  CREATE TABLE dbo.vagas (ID_Vaga          Integer Primary Key Identity(1,1) NOT NULL
+                         ,NM_Vaga          Varchar(100) COLLATE Latin1_General_CI_AS NOT NULL 
+                         ,ID_Nivel         Integer NOT NULL
+                         ,ID_Cargo         Integer NOT NULL
+                         ,DT_Vigencia_Vaga Datetime)
+END
+
+IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_vagas_ID_Nivel'))
+BEGIN
+  ALTER TABLE dbo.vagas ADD CONSTRAINT FK_vagas_ID_Nivel FOREIGN KEY (ID_Nivel) REFERENCES dbo.niveis (ID_Nivel);
+END
+GO
+
+IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_vagas_ID_Cargo'))
+BEGIN
+  ALTER TABLE dbo.vagas ADD CONSTRAINT FK_vagas_ID_Cargo FOREIGN KEY (ID_Cargo) REFERENCES dbo.cargos (ID_Cargo);
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'solicitacoes')
+BEGIN
+  CREATE TABLE dbo.solicitacoes (ID_solicitacao   Integer Primary Key Identity(1,1) NOT NULL
+                                ,ID_Pessoa        Integer NOT NULL
+                                ,ID_Nivel         Integer NOT NULL
+                                ,ID_Cargo         Integer NOT NULL
+                                ,DT_Vigencia_Vaga Datetime)
+END
+
+IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_solicitacoes_ID_Pessoa'))
+BEGIN
+  ALTER TABLE dbo.solicitacoes ADD CONSTRAINT FK_solicitacoes_ID_Pessoa FOREIGN KEY (ID_Pessoa) REFERENCES dbo.pessoas (ID_Pessoa);
+END
+GO
+
+IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_solicitacoes_ID_Nivel'))
+BEGIN
+  ALTER TABLE dbo.solicitacoes ADD CONSTRAINT FK_solicitacoes_ID_Nivel FOREIGN KEY (ID_Nivel) REFERENCES dbo.niveis (ID_Nivel);
+END
+GO
+
+IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_solicitacoes_ID_Cargo'))
+BEGIN
+  ALTER TABLE dbo.solicitacoes ADD CONSTRAINT FK_solicitacoes_ID_Cargo FOREIGN KEY (ID_Cargo) REFERENCES dbo.niveis (ID_Cargo);
 END
 GO

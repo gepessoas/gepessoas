@@ -19,6 +19,24 @@ BEGIN
 END
 GO
 
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'vagas')
+BEGIN
+  DROP TABLE dbo.vagas
+END
+GO
+
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'solicitacoes')
+BEGIN
+  DROP TABLE dbo.solicitacoes
+END
+GO
+
+IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'capacitacoes')
+BEGIN
+  DROP TABLE dbo.capacitacoes
+END
+GO
+
 IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'aplicacoes')
 BEGIN
   DROP TABLE dbo.aplicacoes
@@ -42,7 +60,6 @@ BEGIN
   DROP TABLE dbo.cargos
 END
 GO
-
 
 
 
