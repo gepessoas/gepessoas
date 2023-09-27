@@ -104,12 +104,6 @@ BEGIN
 END
 GO
 
-IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_aplicacoes_ID_Aplicacao'))
-BEGIN
-  ALTER TABLE dbo.requisitos ADD CONSTRAINT FK_aplicacoes_ID_Aplicacao FOREIGN KEY (ID_Aplicacao) REFERENCES dbo.aplicacoes (ID_Aplicacao);
-END
-GO
-
 IF NOT EXISTS(SELECT 1 FROM SYSOBJECTS WHERE ID = OBJECT_ID('CK_requisitos_SN_Concluido'))
 BEGIN
   ALTER TABLE dbo.requisitos ADD CONSTRAINT CK_requisitos_SN_Concluido CHECK (
