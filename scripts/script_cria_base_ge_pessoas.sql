@@ -154,7 +154,7 @@ BEGIN
                                 ,ID_Cargo         Integer NOT NULL
                                 ,Objetivo         Varchar(200)
                                 ,VL_Pretencao_Sal Numeric(18,2)
-                                ,SN_Aprovado      Char(1)      COLLATE Latin1_General_CI_AS 
+                                ,SN_Aprovado      Char(1)      COLLATE Latin1_General_CI_AS NOT NULL DEFAULT 'N'
                                 ,RS_Aplicacao     Varchar(500) COLLATE Latin1_General_CI_AS 
                                 ,DH_Inclusao      Datetime
                                 ,DT_Vigencia_Vaga Datetime)
@@ -175,6 +175,17 @@ GO
 IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_solicitacoes_ID_Cargo'))
 BEGIN
   ALTER TABLE dbo.solicitacoes ADD CONSTRAINT FK_solicitacoes_ID_Cargo FOREIGN KEY (ID_Cargo) REFERENCES dbo.cargos (ID_Cargo);
+END
+GO
+
+
+
+IF NOT EXISTS(SELECT 1 FROM SYSOBJECTS WHERE ID = OBJECT_ID('CK_solicitacoes_SN_Aprovado'))
+BEGIN
+  ALTER TABLE dbo.solicitacoes ADD CONSTRAINT CK_solicitacoes_SN_Aprovado CHECK (
+                                                                          SN_Aprovado = 'S' OR -- Sim
+                                                                          SN_Aprovado = 'N'    -- Nao
+                                                                          );
 END
 GO
 
