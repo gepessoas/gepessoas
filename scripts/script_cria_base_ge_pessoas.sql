@@ -34,7 +34,7 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'pessoas')
 BEGIN
-  CREATE TABLE dbo.pessoas (ID_Pessoa          Integer Primary Key Identity(1,1)
+  CREATE TABLE dbo.pessoas (ID_Pessoa          Integer Primary Key Identity(1,1)          NOT NULL
                            ,CD_Pessoa          Char(6)       COLLATE Latin1_General_CI_AS NOT NULL
                            ,NM_Pessoa          Varchar(100)  
                            ,ID_Cargo           Integer       NOT NULL
@@ -148,16 +148,16 @@ GO
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'solicitacoes')
 BEGIN
   CREATE TABLE dbo.solicitacoes (ID_Solicitacao   Integer Primary Key Identity(1,1) NOT NULL
-                                ,NM_Solicitacao   Varchar(100) 
-                                ,ID_Pessoa        Integer NOT NULL
-                                --,ID_Nivel         Integer NOT NULL
-                                ,ID_Cargo         Integer NOT NULL
-                                ,Objetivo         Varchar(200)
-                                ,VL_Pretencao_Sal Numeric(18,2)
+                                ,NM_Solicitacao   Varchar(100) COLLATE Latin1_General_CI_AS NOT NULL
+                                ,ID_Pessoa        Integer                                   NOT NULL
+                                ,ID_Cargo         Integer                                   NOT NULL
+                                ,Objetivo         Varchar(200) COLLATE Latin1_General_CI_AS NOT NULL
+                                ,VL_Pretencao_Sal Numeric(18,2)                             NOT NULL
                                 ,SN_Aprovado      Char(1)      COLLATE Latin1_General_CI_AS NOT NULL DEFAULT 'N'
-                                ,RS_Aplicacao     Varchar(500) COLLATE Latin1_General_CI_AS 
-                                ,DH_Inclusao      Datetime
-                                ,DT_Vigencia_Vaga Datetime)
+                                ,RS_Aplicacao     Varchar(500) COLLATE Latin1_General_CI_AS NOT NULL
+                                ,DH_Inclusao      Datetime                                  NOT NULL
+                                ,DT_Vigencia_Vaga Datetime                                  NOT NULL
+                                ,DT_Conclusao     Datetime)
 END
 
 IF NOT EXISTS (select 1 from sysobjects where id = object_id('FK_solicitacoes_ID_Pessoa'))
