@@ -39,7 +39,7 @@ BEGIN
                            ,NM_Pessoa          Varchar(100)  
                            ,ID_Cargo           Integer       NOT NULL
                            --,ID_Nivel           Integer       NOT NULL
-                           ,VL_Salario         Numeric(18,2) NOT NULL
+                           ,VL_Salario         Float NOT NULL
                            ,NM_Email           Varchar(50)   COLLATE Latin1_General_CI_AS NOT NULL   
                            ,NM_Senha           Varchar(32)   COLLATE Latin1_General_CI_AS NOT NULL             
                            ,NO_Celular         Varchar(20)   COLLATE Latin1_General_CI_AS
@@ -152,7 +152,7 @@ BEGIN
                                 ,ID_Pessoa        Integer                                   NOT NULL
                                 ,ID_Cargo         Integer                                   NOT NULL
                                 ,Objetivo         Varchar(200) COLLATE Latin1_General_CI_AS NOT NULL
-                                ,VL_Pretencao_Sal Numeric(18,2)                             NOT NULL
+                                ,VL_Pretencao_Sal Float                                     NOT NULL
                                 ,SN_Aprovado      Char(1)      COLLATE Latin1_General_CI_AS NOT NULL DEFAULT 'N'
                                 ,RS_Aplicacao     Varchar(500) COLLATE Latin1_General_CI_AS NOT NULL
                                 ,DH_Inclusao      Datetime                                  NOT NULL
