@@ -1,0 +1,60 @@
+unit uAprovacao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls,
+  Data.DB, Data.Win.ADODB, Vcl.Buttons, Vcl.Imaging.pngimage, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls;
+
+type
+  TfrmAprovacao = class(TForm)
+    imgBgTopo: TImage;
+    Label12: TLabel;
+    imgVoltar: TImage;
+    qrySolicitacao: TADOQuery;
+    dsSolicitacao: TDataSource;
+    Label2: TLabel;
+    Label6: TLabel;
+    edtNome: TDBEdit;
+    edtCod: TDBEdit;
+    cbCargo: TDBLookupComboBox;
+    Label5: TLabel;
+    btnCancelar: TBitBtn;
+    btnSalvar: TBitBtn;
+    btnEditar: TBitBtn;
+    btnIncluir: TBitBtn;
+    qryCargos: TADOQuery;
+    qryCargosID_Cargo: TAutoIncField;
+    qryCargosCD_Cargo: TStringField;
+    qryCargosNM_Cargo: TStringField;
+    qryCargosVL_Salario_Base: TBCDField;
+    dsCargos: TDataSource;
+    Label3: TLabel;
+    mmJustificativaResultado: TDBMemo;
+    DBRadioGroup1: TDBRadioGroup;
+    qrySolicitacaoID_Solicitacao: TAutoIncField;
+    qrySolicitacaoNM_Solicitacao: TStringField;
+    qrySolicitacaoID_Pessoa: TIntegerField;
+    qrySolicitacaoID_Cargo: TIntegerField;
+    qrySolicitacaoObjetivo: TStringField;
+    qrySolicitacaoVL_Pretencao_Sal: TBCDField;
+    qrySolicitacaoSN_Aprovado: TStringField;
+    qrySolicitacaoRS_Aplicacao: TStringField;
+    qrySolicitacaoDH_Inclusao: TDateTimeField;
+    qrySolicitacaoDT_Vigencia_Vaga: TDateTimeField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAprovacao: TfrmAprovacao;
+
+implementation
+
+{$R *.dfm}
+
+end.

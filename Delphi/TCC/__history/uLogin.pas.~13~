@@ -1,0 +1,80 @@
+unit uLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.WinXCtrls, Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, Vcl.Buttons, Data.DB,
+  Data.Win.ADODB;
+
+type
+  TfrmLogin = class(TForm)
+    RelativePanel1: TRelativePanel;
+    edtLogin: TEdit;
+    imgBg: TImage;
+    imgLogo: TImage;
+    pnlUser: TPanel;
+    logoUser: TImage;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Image2: TImage;
+    edtSenha: TEdit;
+    pnlSenha: TPanel;
+    logoPassword: TImage;
+    Label3: TLabel;
+    Label4: TLabel;
+    Conexao: TADOConnection;
+    qryLogin: TADOQuery;
+    qryLoginUSUIdUsuario: TAutoIncField;
+    qryLoginUSUNome: TStringField;
+    qryLoginUSULogin: TStringField;
+    qryLoginUSUSenha: TStringField;
+    qryLoginUSUNivelAcesso: TStringField;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmLogin: TfrmLogin;
+
+implementation
+
+{$R *.dfm}
+
+uses uPrincipal;
+
+procedure TfrmLogin.Button1Click(Sender: TObject);
+begin
+  try
+    qryLogin.close;
+    qryLogin.Parameters.ParamByName('Login').value := edtLogin.text;
+    qryLogin.Parameters.ParamByName('Senha').value := edtSenha.text;
+    qryLogin.Open;
+
+    if qryLogin.RecordCount <> 0 then
+    begin
+      ShowMessage('Login efetuado com Sucesso!');
+      ShowMessage('Bem-vindo ' + qryLogin.Fields.FieldByName('USUNome').AsString);
+    end
+    else
+    begin
+      ShowMessage('Login ou senha incorretos!');
+      Exit;
+    end;
+
+    frmPrincipal := TfrmPrincipal.Create(Application);
+    frmPrincipal.Show;
+
+    Except
+    on E: Exception do
+      ShowMessage('Erro: ' + E.Message );
+  end;
+end;
+
+end.

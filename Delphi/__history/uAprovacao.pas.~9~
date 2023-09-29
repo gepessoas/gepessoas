@@ -1,0 +1,86 @@
+unit uAprovacao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls,
+  Data.DB, Data.Win.ADODB, Vcl.Buttons, Vcl.Imaging.pngimage, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls;
+
+type
+  TfrmAprovacao = class(TForm)
+    imgBgTopo: TImage;
+    Label12: TLabel;
+    imgVoltar: TImage;
+    qrySolicitacao: TADOQuery;
+    dsSolicitacao: TDataSource;
+    Label2: TLabel;
+    Label6: TLabel;
+    edtNome: TDBEdit;
+    edtCod: TDBEdit;
+    cbCargo: TDBLookupComboBox;
+    Label5: TLabel;
+    btnSalvar: TBitBtn;
+    qryCargos: TADOQuery;
+    qryCargosID_Cargo: TAutoIncField;
+    qryCargosCD_Cargo: TStringField;
+    qryCargosNM_Cargo: TStringField;
+    qryCargosVL_Salario_Base: TBCDField;
+    dsCargos: TDataSource;
+    Label3: TLabel;
+    qrySolicitacaoID_Solicitacao: TAutoIncField;
+    qrySolicitacaoNM_Solicitacao: TStringField;
+    qrySolicitacaoID_Pessoa: TIntegerField;
+    qrySolicitacaoID_Cargo: TIntegerField;
+    qrySolicitacaoObjetivo: TStringField;
+    qrySolicitacaoVL_Pretencao_Sal: TBCDField;
+    qrySolicitacaoSN_Aprovado: TStringField;
+    qrySolicitacaoRS_Aplicacao: TStringField;
+    qrySolicitacaoDH_Inclusao: TDateTimeField;
+    qrySolicitacaoDT_Vigencia_Vaga: TDateTimeField;
+    mmJustificativaResultado: TMemo;
+    rgResultado: TRadioGroup;
+    cmdAtualizaSolicitacao: TADOCommand;
+    procedure btnSalvarClick(Sender: TObject);
+    procedure imgVoltarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Visualizar : Boolean;
+  end;
+
+var
+  frmAprovacao: TfrmAprovacao;
+
+implementation
+
+{$R *.dfm}
+
+uses uConProduto, uCadProduto, uPrincipal;
+
+procedure TfrmAprovacao.btnSalvarClick(Sender: TObject);
+begin
+  cmdAtualizaSolicitacao.Parameters.ParamByName('ID_Pessoa').Value      := qrySolicitacao.Fields.FieldByName('ID_Pessoa').asInteger;
+  cmdAtualizaSolicitacao.Parameters.ParamByName('ID_Cargo').Value       := cbCargo.KeyValue;
+
+  if (rgResultado.ItemIndex = 0) then
+    cmdAtualizaSolicitacao.Parameters.ParamByName('SN_Resultado').Value := 'S'
+  else
+    cmdAtualizaSolicitacao.Parameters.ParamByName('SN_Resultado').Value := 'N';
+
+  cmdAtualizaSolicitacao.Parameters.ParamByName('RS_Aplicacao').Value   := mmJustificativaResultado.text;
+  cmdAtualizaSolicitacao.Execute;
+end;
+
+procedure TfrmAprovacao.imgVoltarClick(Sender: TObject);
+begin
+  frmConProduto := TfrmConProduto.Create(self);
+  frmConProduto.Parent := frmprincipal.pnlForms;
+  frmConProduto.Show;
+
+  frmCadProduto.close;
+end;
+
+end.

@@ -1,0 +1,49 @@
+unit uCadastros;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.WinXCtrls,
+  Vcl.StdCtrls, Vcl.Imaging.pngimage;
+
+type
+  TfrmCadastros = class(TForm)
+    pnlPrincipal: TRelativePanel;
+    pnlVeiculo: TPanel;
+    img1: TImage;
+    lblcaminhoes: TLabel;
+    pnllinha1: TPanel;
+    procedure FormShow(Sender: TObject);
+    procedure pnlVeiculoMouseEnter(Sender: TObject);
+    procedure pnlVeiculoMouseLeave(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastros: TfrmCadastros;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastros.FormShow(Sender: TObject);
+begin
+  pnlPrincipal.Left := (ClientWidth - pnlPrincipal.Width) div 2;
+  pnlPrincipal.Top := (ClientHeight - pnlPrincipal.Height) div 2;
+end;
+
+procedure TfrmCadastros.pnlVeiculoMouseEnter(Sender: TObject);
+begin
+  pnllinha1.Visible := True;
+end;
+
+procedure TfrmCadastros.pnlVeiculoMouseLeave(Sender: TObject);
+begin
+  pnllinha1.Visible := False      ;
+end;
+
+end.

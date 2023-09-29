@@ -1,0 +1,19 @@
+program pCargaDescarga;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uCadVeiculo in 'uCadVeiculo.pas' {frmCadVeiculo},
+  uConVeiculo in 'uConVeiculo.pas' {frmConVeiculo},
+  uLogin in 'uLogin.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmConVeiculo, frmConVeiculo);
+  Application.Run;
+end.

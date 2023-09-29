@@ -1,0 +1,50 @@
+unit uCadastros;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.WinXCtrls,
+  Vcl.StdCtrls, Vcl.Imaging.pngimage;
+
+type
+  TfrmCadastros = class(TForm)
+    pnlPrincipal: TRelativePanel;
+    pnlCaminhoes: TShape;
+    lblcaminhoes: TLabel;
+    img1: TImage;
+    procedure FormShow(Sender: TObject);
+    procedure pnlCaminhoesMouseEnter(Sender: TObject);
+    procedure pnlCaminhoesMouseLeave(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastros: TfrmCadastros;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastros.FormShow(Sender: TObject);
+begin
+  pnlPrincipal.Left := (ClientWidth - pnlPrincipal.Width) div 2;
+  pnlPrincipal.Top := (ClientHeight - pnlPrincipal.Height) div 2;
+end;
+
+procedure TfrmCadastros.pnlCaminhoesMouseEnter(Sender: TObject);
+begin
+  pnlCaminhoes.brush.color := clSilver;
+  pnlCaminhoes.pen.color   := clSilver;
+end;
+
+procedure TfrmCadastros.pnlCaminhoesMouseLeave(Sender: TObject);
+begin
+  pnlCaminhoes.brush.color := clCream;
+  pnlCaminhoes.pen.color   := clBlack;
+end;
+
+end.

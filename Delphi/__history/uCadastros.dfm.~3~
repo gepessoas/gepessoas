@@ -1,0 +1,53 @@
+object frmCadastros: TfrmCadastros
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'frmCadastros'
+  ClientHeight = 655
+  ClientWidth = 1220
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  DesignSize = (
+    1220
+    655)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlPrincipal: TRelativePanel
+    Left = 0
+    Top = 40
+    Width = 1000
+    Height = 500
+    ControlCollection = <
+      item
+        Control = RelativePanel1
+        AlignBottomWithPanel = False
+        AlignHorizontalCenterWithPanel = False
+        AlignLeftWithPanel = False
+        AlignRightWithPanel = False
+        AlignTopWithPanel = False
+        AlignVerticalCenterWithPanel = False
+      end>
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    TabOrder = 0
+    DesignSize = (
+      1000
+      500)
+    object RelativePanel1: TRelativePanel
+      Left = 88
+      Top = 117
+      Width = 193
+      Height = 265
+      ControlCollection = <>
+      Anchors = []
+      Color = clSilver
+      ParentBackground = False
+      TabOrder = 0
+    end
+  end
+end

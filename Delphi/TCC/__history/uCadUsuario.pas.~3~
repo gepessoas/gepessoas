@@ -1,0 +1,130 @@
+unit uCadUsuario;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage;
+
+type
+  TfrmCadUsuario = class(TForm)
+    edtCod: TDBEdit;
+    qryUsuario: TADOQuery;
+    Label1: TLabel;
+    edtNome: TDBEdit;
+    Label2: TLabel;
+    dsUsuario: TDataSource;
+    edtLogin: TDBEdit;
+    Label3: TLabel;
+    edtSenha: TDBEdit;
+    Label4: TLabel;
+    edtNivel: TDBEdit;
+    Label5: TLabel;
+    cbAtivo: TDBCheckBox;
+    btnIncluir: TBitBtn;
+    btnEditar: TBitBtn;
+    btnSalvar: TBitBtn;
+    btnCancelar: TBitBtn;
+    Label12: TLabel;
+    imgBgTopo: TImage;
+    imgVoltar: TImage;
+    qryUsuarioUSUIdUsuario: TAutoIncField;
+    qryUsuarioUSUNome: TStringField;
+    qryUsuarioUSULogin: TStringField;
+    qryUsuarioUSUSenha: TStringField;
+    qryUsuarioUSUNivelAcesso: TStringField;
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure dsUsuarioStateChange(Sender: TObject);
+    procedure qryUsuarioAfterScroll(DataSet: TDataSet);
+    procedure imgVoltarClick(Sender: TObject);
+    procedure edtAnoKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Visualizar : Boolean;
+  end;
+
+var
+  frmCadUsuario: TfrmCadUsuario;
+
+implementation
+
+{$R *.dfm}
+
+uses uPrincipal, uConUsuario;
+
+procedure TfrmCadUsuario.btnCancelarClick(Sender: TObject);
+begin
+  qryUsuario.Cancel;
+  qryUsuario.AfterScroll(qryUsuario);
+end;
+
+procedure TfrmCadUsuario.btnEditarClick(Sender: TObject);
+begin
+  qryUsuario.Edit;
+  qryUsuario.AfterScroll(qryUsuario);
+end;
+
+procedure TfrmCadUsuario.btnIncluirClick(Sender: TObject);
+begin
+  qryUsuario.insert;
+  qryUsuario.AfterScroll(qryUsuario);
+end;
+
+procedure TfrmCadUsuario.btnSalvarClick(Sender: TObject);
+begin
+  qryUsuario.Post;
+  qryUsuario.AfterScroll(qryUsuario);
+end;
+
+procedure TfrmCadUsuario.dsUsuarioStateChange(Sender: TObject);
+begin
+  btnSalvar.Enabled   := (qryUsuario.State in [dsInsert, dsEdit]) and not Visualizar;
+  btnCancelar.Enabled := (qryUsuario.State in [dsInsert, dsEdit]) and not Visualizar;
+
+  btnIncluir.Enabled := (qryUsuario.State in [dsBrowse]) and not Visualizar;
+  btnEditar.Enabled  := (qryUsuario.State in [dsBrowse]) and not Visualizar;
+ end;
+
+procedure TfrmCadUsuario.edtAnoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not (Key in ['1'..'9'])) and (Key <> Chr(VK_DELETE)) and (Key <> Chr(VK_BACK)) then
+  begin
+    Key := #0;
+  end;
+end;
+
+procedure TfrmCadUsuario.imgVoltarClick(Sender: TObject);
+begin
+  frmConUsuario := TfrmConUsuario.Create(self);
+  frmConUsuario.Parent := frmprincipal.pnlForms;
+  frmConUsuario.Show;
+
+  frmCadUsuario.close;
+end;
+
+procedure TfrmCadUsuario.qryUsuarioAfterScroll(DataSet: TDataSet);
+begin
+  if  not (qryUsuario.State in [dsInsert, dsEdit]) then
+  begin
+    edtNome.Color        := clInactiveCaption;
+    edtLogin.Color       := clInactiveCaption;
+    edtSenha.Color       := clInactiveCaption;
+    edtNivel.Color       := clInactiveCaption;
+  end
+  else
+  begin
+    edtNome.Color        := clWindow;
+    edtLogin.Color       := clWindow;
+    edtSenha.Color       := clWindow;
+    edtNivel.Color       := clWindow;
+  end;
+end;
+
+end.

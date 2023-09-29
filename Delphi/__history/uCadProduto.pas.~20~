@@ -1,0 +1,114 @@
+unit uCadProduto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.StdCtrls,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Buttons, Vcl.Imaging.jpeg, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage, Data.FMTBcd, Data.SqlExpr;
+
+type
+  TfrmCadProduto = class(TForm)
+    qryProduto: TADOQuery;
+    Label2: TLabel;
+    dsProduto: TDataSource;
+    btnSalvar: TBitBtn;
+    Label12: TLabel;
+    imgBgTopo: TImage;
+    imgVoltar: TImage;
+    Label1: TLabel;
+    qryCargo: TADOQuery;
+    qryCargoID_Cargo: TIntegerField;
+    qryProdutoID_Solicitacao: TAutoIncField;
+    qryProdutoNM_Solicitacao: TStringField;
+    qryProdutoID_Pessoa: TIntegerField;
+    qryProdutoID_Cargo: TIntegerField;
+    qryProdutoObjetivo: TStringField;
+    qryProdutoVL_Pretencao_Sal: TBCDField;
+    qryProdutoSN_Aprovado: TStringField;
+    qryProdutoRS_Aplicacao: TStringField;
+    qryProdutoDH_Inclusao: TDateTimeField;
+    qryProdutoDT_Vigencia_Vaga: TDateTimeField;
+    stpAdicionaSolicitacao: TADOStoredProc;
+    mmObjetivo: TMemo;
+    edtSalario: TEdit;
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure imgVoltarClick(Sender: TObject);
+    procedure edtPrecoKeyPress(Sender: TObject; var Key: Char);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Visualizar : Boolean;
+  end;
+
+var
+  frmCadProduto: TfrmCadProduto;
+
+implementation
+
+{$R *.dfm}
+
+uses uPrincipal, uConProduto, uLogin;
+
+procedure TfrmCadProduto.btnCancelarClick(Sender: TObject);
+begin
+  qryProduto.Cancel;
+  qryProduto.AfterScroll(qryProduto);
+end;
+
+procedure TfrmCadProduto.btnEditarClick(Sender: TObject);
+begin
+  qryProduto.Edit;
+  qryProduto.AfterScroll(qryProduto);
+end;
+
+procedure TfrmCadProduto.btnIncluirClick(Sender: TObject);
+begin
+  qryProduto.Open;
+  qryProduto.insert;
+  qryProduto.AfterScroll(qryProduto);
+end;
+
+procedure TfrmCadProduto.btnSalvarClick(Sender: TObject);
+begin
+  stpAdicionaSolicitacao.Close;
+  stpAdicionaSolicitacao.Parameters.ParamByName('ID_Pessoa').Value        := qryProdutoID_Pessoa.AsInteger;
+  stpAdicionaSolicitacao.Parameters.ParamByName('Objetivo').Value         := mmObjetivo.Text;
+  stpAdicionaSolicitacao.Parameters.ParamByName('VL_Pretencao_Sal').Value := edtSalario.Text;
+  stpAdicionaSolicitacao.ExecProc;
+
+  if stpAdicionaSolicitacao.Parameters.ParamByName('Err_Code').Value > 0 then
+  begin
+    showmessage(stpAdicionaSolicitacao.Parameters.ParamByName('Err_Msg').Value);
+  end;
+end;
+
+procedure TfrmCadProduto.edtPrecoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not (Key in ['0'..'9'])) and (Key <> Chr(VK_DELETE)) and (Key <> Chr(VK_BACK)) and (Key <> Chr(44)) then
+  begin
+    Key := #0;
+  end;
+end;
+
+procedure TfrmCadProduto.FormShow(Sender: TObject);
+begin
+  qryProduto.Open;
+end;
+
+procedure TfrmCadProduto.imgVoltarClick(Sender: TObject);
+begin
+  frmConProduto := TfrmConProduto.Create(self);
+  frmConProduto.Parent := frmprincipal.pnlForms;
+  frmConProduto.Show;
+
+  frmCadProduto.close;
+end;
+
+end.
